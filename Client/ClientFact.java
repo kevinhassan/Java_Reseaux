@@ -7,7 +7,8 @@ import java.net.*;
 import java.util.Scanner;
 
 // Cette classe contient le client qui demande la factorielle et obtient le résultat
-public class ClientFact extends Thread{
+
+public class ClientFact{
 
 	private InetAddress adresse;
 	private Socket socket;
@@ -28,6 +29,57 @@ public class ClientFact extends Thread{
 		socket = new Socket(adresse, this.port);
 	}
 
+	/**
+	 * Fonction faisant marcher le client. Gere les flux d'entree sortie principalement.
+	 */
+	class Listen extends Thread {
+
+	Listen(Socket socket) {
+	try {
+			this.socket = socket;
+			sInput  = socket.getInputStream();
+	}//try
+	catch (Exception e) {}
+	}//Listen
+
+	public void run() {
+		try {
+			InputStream input = socket.getInputStream();
+			Scanner sc = new Scanner(input);
+			String msg;
+			while (true) {
+					if (sc.hasNext()) {
+						InputStream input = socket.getInputStream();
+						Scanner sc = new Scanner(input);
+						String msg;
+						if(sc.hasNext()){
+							msg = sc.nextLine();
+							System.out.println("Resultat: "+msg);
+							this.valeur = msg);
+					}//if
+			}//while
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+}//run
+
+	public void run(){
+		try {
+			//On envoie le nombre souhaité
+			PrintStream output = new PrintStream(socket.getOutputStream());
+			output.print(this.parametre);
+			Listen l = new Listen(socket);
+			l.start();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public String getValeur() {
+		return valeur;
+	}
 
 	public static void main(String[] args) {
 		//On crée le client
@@ -38,30 +90,5 @@ public class ClientFact extends Thread{
 		} catch (NumberFormatException | IOException e) {
 			e.printStackTrace();
 		}
-	}
-	/**
-	 * Fonction faisant marcher le client. Gere les flux d'entree sortie principalement.
-	 */
-	public void run(){
-		try {
-			//On envoie le nombre souhaité
-			PrintStream output = new PrintStream(socket.getOutputStream());
-			output.print(this.parametre);
-			//On écoute le serveur qui nous envoie un message
-			InputStream input = socket.getInputStream();
-			Scanner sc = new Scanner(input);
-			String msg;
-			if(sc.hasNext()){
-				msg = sc.nextLine();
-				System.out.println("Resultat: "+msg);
-				this.valeur = msg);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	public String getValeur() {
-		return valeur;
 	}
 }
