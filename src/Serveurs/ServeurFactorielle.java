@@ -51,8 +51,8 @@ public class ServeurFactorielle extends Thread{
 			super();
 			this.socket = socket;
 			this.port=port;
-			Scanner entree = new Scanner(socket.getInputStream());
-			this.parametre = Integer.parseInt(entree.next());
+			Scanner input = new Scanner(socket.getInputStream());
+			this.parametre = Integer.parseInt(input.next());
 			this.output = new PrintStream(socket.getOutputStream());
 			this.buffer=buffer;
 
@@ -65,10 +65,10 @@ public class ServeurFactorielle extends Thread{
 		public void run(){
 			try{	
 				if(this.buffer.containsKey(parametre))//On a deja effectue le calcul
-					System.out.println("Factorielle de "+parametre+" vaut : "+this.buffer.get(parametre));
+					output.print(Integer.toString(this.buffer.get(parametre))+"\n");
 				else
 				{
-					if(parametre <0)
+					if(parametre < 0)
 					{
 						output.print("L'entier n'est pas définit "+"\n");
 					}
