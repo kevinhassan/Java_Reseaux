@@ -1,3 +1,9 @@
+Projet Réseau Semestre 5 IG3 : 
+
+But : 
+- Implémenter un client communicant avec un serveur de calcul lui même créé des clients "locale" permettant d'effectuer le calcul
+- 2 fonctions : Factorielle et Fibonacci
+
 Paramétres à entrer : [int n][int port] [adresse]
 
 Pour la fonction Factorielle:
